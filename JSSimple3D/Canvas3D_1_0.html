@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Simple 3D Renderer</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+		<style type="text/css">
+			body {
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			a {
+				color:#0078ff;
+			}
+		</style>
+	</head>
+	<body>
+
+	
+			<script type="text/javascript">
+
+			// screen size variables
+			var SCREEN_WIDTH = window.innerWidth,
+			SCREEN_HEIGHT = window.innerHeight,
+			HALF_WIDTH = window.innerWidth / 2,
+			HALF_HEIGHT = window.innerHeight / 2,
+
+			// canvas element and 2D context
+			canvas = document.createElement( 'canvas' ),
+			context = canvas.getContext( '2d' ),
+			
+			// notional field of view for 3D projection
+			fov = 250;
+			
+			init();
+		
+			function init() 
+			{
+				
+				
+				// CANVAS SET UP
+				
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				container.appendChild(canvas); 
+				canvas.width = SCREEN_WIDTH; 
+				canvas.height = SCREEN_HEIGHT;
+				
+				// move origin into the centre of the screen
+				context.translate(HALF_WIDTH, HALF_HEIGHT);
+				
+				// create a 3D point	
+				var point = new Point3D(0,0,0);
+				
+				// and render it!
+				draw3Din2D(point, context); 
+				
+			}
+				
+			// The 3D point object. 
+			
+			function Point3D(x,y,z)
+			{
+				this.x = x; 
+				this.y = y; 
+				this.z = z; 
+			}
+			
+			
+			// draws a 3D point in a 2D canvas. Assumes
+			// origin of the canvas is set to the middle
+			// using the translate method. 
+			
+			function draw3Din2D(p3d, c)
+			{  
+							
+				// first, work out how small it should be
+				// using the z position ( how far away it is :) ) 
+				var scale = fov/(fov + p3d.z);
+				
+				// then multiply the 3D x and y by this scale
+				// to get the 2D x and y. 
+				 
+				var x2d = (p3d.x * scale);	
+				var y2d = (p3d.y * scale);
+				
+				// and then draw a 2px wide and 2px long line at this point. 
+				c.lineWidth= 2; 
+				c.strokeStyle = "rgb(255,255,255)"; 	
+				c.beginPath();
+				c.moveTo(x2d,y2d); 
+				c.lineTo(x2d+2,y2d); 
+				c.stroke(); 
+				
+			}
+
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
