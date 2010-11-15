@@ -1,0 +1,1 @@
+Source code as demoed at Full Frontal 2010. More info at sebleedelisle.com http://sebleedelisle.com/2010/11/creative-coding-with-javascript
