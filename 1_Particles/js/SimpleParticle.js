@@ -1,6 +1,5 @@
 
-function Particle(posx, posy)
-{
+function Particle(posx, posy) {
 
 	// the position of the particle
 	this.posX = posx; 
@@ -8,7 +7,7 @@ function Particle(posx, posy)
 	// the velocity 
 	this.velX = 0; 
 	this.velY = 0; 
-	
+		
 	// multiply the particle size by this every frame
 	this.shrink = 1; 
 	this.size = 1; 
@@ -27,8 +26,7 @@ function Particle(posx, posy)
 	// subtracted from the alpha every frame to make it fade out
 	this.fade = 0; 
 
-	this.update = function() 
-	{
+	this.update = function() {
 	
 		// simulate drag
 		this.velX *= this.drag; 
@@ -47,28 +45,25 @@ function Particle(posx, posy)
 		// and fade it out
 		this.alpha -= this.fade; 
 	 
-	}
+	};
 	
-	this.render = function(c)
-	{
+	this.render = function(c) {
 		// set the fill style to have the right alpha
 		c.fillStyle = "rgba(255,255,255,"+this.alpha+")";
 		
 		// draw a circle of the required size
 		c.beginPath();
 		c.arc(this.posX, this.posY, this.size, 0, Math.PI*2, true);
-		c.closePath();
-		
+	
 		// and fill it
 		c.fill();
 	
-	}
+	};
 
 
 }
 
 
-function randomRange(min, max)
-{
+function randomRange(min, max) {
 	return ((Math.random()*(max-min)) + min); 
 }

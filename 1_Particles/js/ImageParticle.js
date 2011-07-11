@@ -1,8 +1,7 @@
 
 var TO_RADIANS = Math.PI / 180; 
 
-function ImageParticle(img, posx, posy)
-{
+function ImageParticle(img, posx, posy) {
 
 	// the position of the particle
 	this.posX = posx; 
@@ -18,6 +17,9 @@ function ImageParticle(img, posx, posy)
 	// the particle (this is for growing particles).
 	this.maxSize = -1;
 	
+	// if true then make the particle flicker
+	this.shimmer = false;	
+
 	// multiply the velocity by this every frame to create
 	// drag. A number between 0 and 1, closer to one is 
 	// more slippery, closer to 0 is more sticky. values
@@ -44,8 +46,7 @@ function ImageParticle(img, posx, posy)
 	// the image to use for the particle. 
 	this.img = img; 
 
-	this.update = function() 
-	{
+	this.update = function() {
 	
 		// simulate drag
 		this.velX *= this.drag; 
@@ -71,11 +72,12 @@ function ImageParticle(img, posx, posy)
 		// rotate the particle by the spin amount. 
 		this.rotation += this.spin; 
 		
-	 
-	}
 	
-	this.render = function(c)
-	{
+		
+	 
+	};
+	
+	this.render = function(c) {
 	
 		// if we're fully transparent, no need to render!
 		if(this.alpha ==0) return;
@@ -87,7 +89,8 @@ function ImageParticle(img, posx, posy)
 		c.translate(this.posX, this.posY);
 		
 		// scale it dependent on the size of the particle
-		c.scale(this.size,this.size);
+		var s = this.shimmer ? this.size * Math.random() : this.size; //this.shimmer ? this.size * 0 : this.size; 
+		c.scale(s,s);
 		
 		// and rotate
 		c.rotate(this.rotation * TO_RADIANS);
@@ -107,13 +110,12 @@ function ImageParticle(img, posx, posy)
 		// and restore the canvas state
 		c.restore();
 					
-	}
+	};
 
 
 }
 
 
-function randomRange(min, max)
-{
+function randomRange(min, max) {
 	return ((Math.random()*(max-min)) + min); 
 }

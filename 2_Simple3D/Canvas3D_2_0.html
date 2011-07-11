@@ -32,7 +32,7 @@
 			context = canvas.getContext( '2d' ),
 			
 			// notional field of view for 3D projection
-			fov = 250,
+			fov = 150,
 			
 			// to convert from degrees to radians, 
 			// multiply by this number!
@@ -75,7 +75,7 @@
 				// set up a mouse listener that sets the rotate amount on a mouseDown. 
 				// in other words, the points start rotating when you click!
 				
-				document.addEventListener( 'mousedown', function(){rotateAmount=2}, false );
+				document.addEventListener( 'mousedown', function(){rotateAmount=2;}, false );
 			}
 
 			
@@ -84,7 +84,9 @@
 			function loop() 
 			{
 
-							
+				
+				//points = points.sort(function(a,b){return (b.z - a.z);}); 
+				
 				// clear the canvas 
 				context.fillStyle="rgb(0,0,0)";
 			  	context.fillRect(-HALF_WIDTH,-HALF_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -132,7 +134,7 @@
 					this.x= (tempx*cosRY)+(tempz*sinRY);
 					this.z= (tempx*-sinRY)+(tempz*cosRY);
 				
-				}
+				};
 						
 			}
 			
@@ -155,12 +157,14 @@
 				
 				
 				// and then draw a 2px wide and 2px long line at this point. 
-				c.lineWidth= 2; 
-				c.strokeStyle = "rgb(255,255,255)"; 	
+				c.lineWidth = 2; 
+				c.fillStyle = "rgb(255,255,255)"; 
+				//c.strokeStyle = "rgb(255,255,255)"; 
 				c.beginPath();
-				c.moveTo(x2d,y2d); 
-				c.lineTo(x2d+2,y2d); 
-				c.stroke(); 
+				c.arc(x2d, y2d, 1, 0, Math.PI*2, true); 
+				c.fill(); 
+				//c.stroke(); 
+				
 				
 			}
 

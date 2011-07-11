@@ -1,0 +1,64 @@
+<html lang="en">
+<meta charset="utf-8">
+
+	<head>
+		<title>Simple 2D Particle system</title>
+
+		<style type="text/css">
+			body {
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+		</style>
+	</head>
+	<body>
+		
+		<script src="js/SimpleParticle.js"></script>
+		
+		<script>
+		
+			// screen size variables
+			var SCREEN_WIDTH = window.innerWidth,
+				SCREEN_HEIGHT = window.innerHeight;
+
+				// canvas element and 2D context
+			var canvas = document.createElement( 'canvas' ),
+				context = canvas.getContext( '2d' ),
+
+				particle;
+
+			init();
+			
+			function init() {
+			
+				// CANVAS SET UP
+			
+				document.body.appendChild(canvas); 
+				canvas.width = SCREEN_WIDTH; 
+				canvas.height = SCREEN_HEIGHT;
+				
+				particle = new Particle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2); 
+				particle.velX = 2; 
+			
+				setInterval(loop, 1000/30); 
+			
+			
+			}
+			
+			function loop()  {
+				
+				context.clearRect(0,0,SCREEN_WIDTH, SCREEN_HEIGHT); 
+				
+				particle.update(); 
+				particle.render(context); 
+				
+			}
+			
+			
+		</script>
+	
+		
+	</body>
+</html>

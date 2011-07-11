@@ -48,7 +48,6 @@
 			// the image used to render each particle
 			particleImage = new Image();
 		
-
 			init();
 			
 			// call the loop function every 1000/30 mils, in 
@@ -75,22 +74,10 @@
 
 				document.addEventListener('mousemove', onDocumentMouseMove, false);
 				
-				
-								
-				for(var i = 0 ; i< 80; i++)
+				// create 100 3D points
+				for(var i = 0 ; i< 100; i++)
 				{
-					// make a random point
-					var p1 = new Point3D(randomRange(-150,150),randomRange(-150,150),randomRange(-fov,fov));
-				
-					// and then make 4 points that start at that point and 
-					// gradually get further away. In other words, the points
-					// are in bunches of 4 in a line. 
-					
-					for(var j = 0; j<4; j++)
-					{
-						points.push(new Point3D(p1.x, p1.y, p1.z+(j*10)))
-					}
-				
+					points.push(new Point3D(randomRange(-150,150),randomRange(-150,150),randomRange(-150,150)));
 				}
 				
 				
@@ -100,11 +87,13 @@
 			
 			function onDocumentMouseMove( event ) 
 			{
+
 				mouseX = ( event.clientX - HALF_WIDTH );
 				mouseY = ( event.clientY - HALF_HEIGHT );
+
 			}
 	
-			//
+			// the main loop function that gets called 30 times a second
 			
 			function loop() 
 			{
@@ -136,13 +125,8 @@
 				{
 					var point = points[i]; 
 					
-					// move the point backwards or forwards, dependent on the
-					// mouse's y position. 
-					point.z += (mouseY*0.08); 	
-					
-					// if we're too close move the particle to the back and vice versa
-					if(point.z<-fov) point.z = point.z + fov + fov; 
-					else if(point.z>fov) point.z = point.z - fov - fov;
+					// rotate the point relative to where the mouse is
+					point.rotateY(mouseX * 0.01);
 					
 					// render it
 					draw3Din2D(point, context); 
@@ -151,62 +135,39 @@
 				
 
 			}
-
-			
-			
-			function loop() 
-			{
-
-				// the composite operation dictates how each draw operation 
-				// is blended with what is underneath. The default is 
-				// 'source-over' which means the new stuff obliterates the 
-				// old stuff. 
-				
-				context.globalCompositeOperation = 'source-over';
-				
-				// clear the canvas
-				context.fillStyle="rgb(0,0,0)";
-				context.globalAlpha = 1;
-
-
-				//context.fillStyle="rgba(0,0,0,0.2)";
-			  	context.fillRect(-HALF_WIDTH,-HALF_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
-			  
-			  	context.globalCompositeOperation = 'lighter';
-				context.globalAlpha = 0.9;
-
-			  	// iteratate through each point
-				for (i=0; i<points.length; i++)
-				{
-					var point = points[i]; 
-					
-					point.z += (mouseY*0.08); 	
-		
-					if(point.z<-fov) point.z = point.z + fov + fov; 
-					else if(point.z>fov) point.z = point.z - fov - fov;
-					
-					// render it
-					
-					draw3Din2D(point, context); 
-			
-				}
-				
-
-			}
-			
 			
 			// The 3D Point object. 
+			// now with added method to rotate around the Y axis.
 			
 			function Point3D(x,y,z)
 			{
 				this.x = x; 
 				this.y = y; 
 				this.z = z; 
-									
+				
+				
+				// rotates the point around the origin by the specified 
+				// number of degrees. Uses the trig that you've probably 
+				// forgotten from school to adjust only the x and z  
+				// co-ordinates, hence, rotating around the Y axis. 
+				
+				this.rotateY = function(angle)
+				{
+					
+					cosRY = Math.cos(angle * TO_RADIANS);
+					sinRY = Math.sin(angle * TO_RADIANS);
+					
+					var tempz = this.z;; 
+					var tempx = this.x; 
+				
+					this.x= (tempx*cosRY)+(tempz*sinRY);
+					this.z= (tempx*-sinRY)+(tempz*cosRY);
+				
+				};
+						
 			}
 			
 			
-	
 						
 			function draw3Din2D(p3d, c)
 			{  
@@ -216,8 +177,6 @@
 				
 				// if the particle is behind the camera, then don't draw it!
 				if(scale<0) return; 
-				// or if it's too big then don't draw it!
-				else if (scale>12) return; 
 				
 				// then multiply the 3D x and y by this scale
 				// to get the 2D x and y. 
@@ -232,8 +191,8 @@
 				// translate the draw matrix to move to the center of the particle
 				c.translate(x2d, y2d);
 				// adjust the size dependent on the calculated scale factor
-				// (0.8 is just an adjuster to make it a little smaller)
-				c.scale(scale*0.8, scale*0.8); 
+				// (1.5 is just an adjuster to make it a little bigger)
+				c.scale(scale*1.5, scale*1.5); 
 				// and offset so the image is centred on the position
 				c.translate(particleImage.width * -0.5, particleImage.height * -0.5 );
 				// and then draw it at 0,0 (which has now been shifted to reflect
@@ -246,7 +205,7 @@
 				
 			}
 
-						
+			
 			// returns a random number between the two limits provided 
 			function randomRange(min, max)
 			{

@@ -1,0 +1,123 @@
+<html lang="en">
+<meta charset="utf-8">
+
+	<head>
+		<title>Simple 2D Particle system</title>
+
+		<style type="text/css">
+			body {
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+		</style>
+	</head>
+	<body>
+	
+		<script src="js/SimpleParticle.js"></script>		
+		<script>
+
+		// screen size variables
+		var	SCREEN_WIDTH = window.innerWidth,
+			SCREEN_HEIGHT = window.innerHeight,
+			HALF_WIDTH = window.innerWidth / 2,
+			HALF_HEIGHT = window.innerHeight / 2;
+
+		// canvas element and 2D context
+		var	canvas = document.createElement( 'canvas' ),
+			context = canvas.getContext( '2d' );
+		
+		var particle,
+			particles = [],
+			MAX_PARTICLES = 150,
+			TO_RADIANS = Math.PI/180,
+			currentAngle = 0;
+
+			init();
+		
+			function init() {
+
+				// CANVAS SET UP
+			
+				document.body.appendChild(canvas); 
+				canvas.width = SCREEN_WIDTH; 
+				canvas.height = SCREEN_HEIGHT;
+				
+				setInterval(loop, 1000 / 30);
+				
+			}
+
+			
+	
+			//
+			
+			function loop() {
+
+				// make some particles
+				
+				currentAngle += 20; 
+				
+				makeParticle(5); 
+				
+				// clear the canvas
+				context.clearRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
+			  	
+			  	// iteratate through each particle
+				for (i=0; i<particles.length; i++) {
+					var particle = particles[i]; 
+					
+					// render it
+					particle.render(context); 
+					
+					// and then update. We always render first so particle
+					// appears in the starting point.
+					particle.update();
+					
+			
+				}
+				
+				// Keep taking the oldest particles away until we have 
+				// fewer than the maximum allowed. 
+				 
+				while(particles.length>MAX_PARTICLES)
+					particles.shift(); 
+				
+			}
+			
+			function makeParticle(particleCount) {
+			
+				for(var i=0; i<particleCount;i++) {
+					
+					// create a new particle in the middle of the stage
+					var particle = new Particle(HALF_WIDTH, HALF_HEIGHT); 
+					
+					// give it a random x and y velocity
+					
+					//particle.velX = Math.random()*10-5; 
+					//particle.velY = Math.random()*10-5; 
+					
+					var angle =  (currentAngle  - (Math.random() * 50)) * TO_RADIANS; //(Math.random()*Math.PI * 2); // (Math.random() * Math.PI * 2); //+ (Math.PI / 4);;
+					var speed = (Math.random()*10) +10 ; 
+					
+					particle.velX = Math.cos(angle) * speed; 
+					particle.velY = Math.sin(angle) * speed; 
+					
+					particle.drag = 0.96;
+					particle.gravity = 0.3; 
+					
+					particle.size = 2; 
+					particle.shrink  = 1.02; 
+					particle.fade = 0.02; 
+					
+					// add it to the array
+					particles.push(particle); 
+					
+				}
+			
+			}
+			
+			
+		</script>
+	</body>
+</html>
