@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html lang="en">
 <meta charset="utf-8">
 
@@ -39,23 +40,18 @@
 				canvas.width = SCREEN_WIDTH; 
 				canvas.height = SCREEN_HEIGHT;
 				
-				particle = new Particle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2); 
-				particle.velX = 2; 
+				particle = new Particle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+				particle.render(context);  
 			
-				setInterval(loop, 1000/30); 
-			
-			
-			}
-			
-			function loop()  {
-				
-				context.clearRect(0,0,SCREEN_WIDTH, SCREEN_HEIGHT); 
-				
-				particle.update(); 
-				particle.render(context); 
+				//setInterval(loop, 1000 / 30);
 				
 			}
 			
+			function loop() {	
+					
+			  	//context.clearRect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);	
+				
+			}
 			
 		</script>
 	

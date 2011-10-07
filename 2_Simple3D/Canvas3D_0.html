@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Simple 3D Renderer</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+		<style type="text/css">
+			body {
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			a {
+				color:#0078ff;
+			}
+		</style>
+	</head>
+	<body>
+
+	
+			<script type="text/javascript">
+
+			// screen size variables
+			var SCREEN_WIDTH = window.innerWidth,
+			SCREEN_HEIGHT = window.innerHeight,
+			HALF_WIDTH = window.innerWidth / 2,
+			HALF_HEIGHT = window.innerHeight / 2,
+
+			// canvas element and 2D context
+			canvas = document.createElement( 'canvas' ),
+			context = canvas.getContext( '2d' ),
+			
+			// notional field of view for 3D projection
+			fov = 250;
+			
+			var x3d = 10, 
+				y3d = 10, 
+				z3d = 0; 
+			
+			init();
+		
+			function init() 
+			{
+				
+				
+				// CANVAS SET UP
+				
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				container.appendChild(canvas); 
+				canvas.width = SCREEN_WIDTH; 
+				canvas.height = SCREEN_HEIGHT;
+				
+				// move origin into the centre of the screen
+				context.translate(HALF_WIDTH, HALF_HEIGHT);
+			
+				
+				setInterval(loop, 1000/30); 
+				
+			}
+			
+			
+			function loop() { 
+			}
+			
+		</script>
+	</body>
+</html>

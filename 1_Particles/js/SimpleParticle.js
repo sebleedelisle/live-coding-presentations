@@ -7,7 +7,7 @@ function Particle(posx, posy) {
 	// the velocity 
 	this.velX = 0; 
 	this.velY = 0; 
-		
+	
 	// multiply the particle size by this every frame
 	this.shrink = 1; 
 	this.size = 1; 
@@ -48,6 +48,9 @@ function Particle(posx, posy) {
 	};
 	
 	this.render = function(c) {
+		
+		if(this.alpha<0.01) return; 
+		
 		// set the fill style to have the right alpha
 		c.fillStyle = "rgba(255,255,255,"+this.alpha+")";
 		

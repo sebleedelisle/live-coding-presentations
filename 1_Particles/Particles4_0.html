@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html lang="en">
 <meta charset="utf-8">
 
@@ -107,8 +108,8 @@
 					// create a new particle in the middle of the stage
 					var particle = new ImageParticle(particleImage, mouseX, mouseY); 
 				
-					particle.velX = randomRange(-6,6) +  (mouseVelX*0.4) ;
-					particle.velY = randomRange(-6,6) +  (mouseVelY*0.4) ;
+					particle.velX = randomRange(-6,6);// +  (mouseVelX*0.4) ;
+					particle.velY = randomRange(-6,6);// +  (mouseVelY*0.4) ;
 					
 				
 					particle.size = randomRange(2,4);
@@ -117,9 +118,9 @@
 					particle.gravity = 0.2; 
 					particle.drag = 0.97;
 					particle.shrink = 0.96; 
-					particle.shimmer = true; 
+				//	particle.shimmer = true; 
 					
-					particle.compositeOperation = 'lighter'; 
+				//	particle.compositeOperation = 'lighter'; 
 					
 					// add it to the array
 					particles.push(particle); 
