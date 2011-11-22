@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title></title>
+<style type="text/css"> 
+	body {
+		background-color: #000000;
+		margin: 0px;
+		text-align:center;
+	}
+	canvas {
+		background-color:#111133;
+	}
+
+</style>
+
+
+</head>
+<body>
+<script>
+
+// canvas element and 2D context
+var canvas = document.createElement( 'canvas' ),
+	ctx = canvas.getContext( '2d' );
+
+canvas.width = 800; 
+canvas.height = 600; 
+document.body.appendChild(canvas);
+
+ctx.translate(400,550); 
+branch(100, 0); 
+
+function branch(len, angle) { 
+	
+	ctx.save(); 
+	
+	ctx.strokeStyle = 'white'; 
+	ctx.lineWidth = len/10; 
+	ctx.rotate(angle * Math.PI/180); 
+	ctx.beginPath(); 
+	ctx.moveTo(0,0); 
+	ctx.lineTo(0, -len); 
+	ctx.stroke();
+	ctx.translate(0,-len); 
+
+	if(len>10) {
+		branch(len*randomRange(0.7,0.9), -20); 
+		branch(len*randomRange(0.7,0.9), 20); 
+	}
+	
+	ctx.restore(); 
+}
+
+
+function randomRange(min, max) { 
+	return Math.random() * (max-min) + min; 
+}
+</script>
+</body>
+</html>

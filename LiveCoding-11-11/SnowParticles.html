@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+	<title>@seb_ly</title>
+	<style type="text/css">
+	
+	html { 
+		min-height : 100%;
+		
+	}
+	body {
+		margin:0px; 
+		overflow : hidden;
+		background : -webkit-linear-gradient(top, #007,#000);
+		background : -moz-linear-gradient(top, #007,#000);
+		background : -o-linear-gradient(top, #007,#000);
+		
+	}
+	</style>
+</head>
+<body>
+	<script>
+
+var canvas = document.createElement('canvas'), 
+	ctx = canvas.getContext('2d'), 
+	width = canvas.width = window.innerWidth, 
+	height = canvas.height = window.innerHeight, 
+	particles = [], 
+	mouseX = 0; 
+	
+	
+
+
+document.body.appendChild(canvas); 
+document.addEventListener("mousemove", onMouseMove); 
+
+setInterval(loop, 1000/30); 
+
+function loop() { 
+	
+	var particle = new Particle();
+	particles.push(particle); 
+	
+	//ctx.globalCompositeOperation = 'source-over'; 
+	ctx.fillStyle = "rgba(0,0,0,0.1)"; 
+	ctx.clearRect(0,0,width, height); 
+	
+	//ctx.globalCompositeOperation = 'lighter'; 
+	for(var i=0;i<particles.length;i++){
+		particles[i].update(); 
+	}
+	
+	while(particles.length>400) particles.shift(); 
+}
+
+function onMouseMove(e) { 
+	mouseX = e.clientX; 
+	
+}
+function Particle() { 
+	
+	this.x = randomRange(0,width); 
+	this.y = 0; 
+	this.velX = randomRange(-1,1); 
+	this.velY = randomRange(1,2); 
+	var z = randomRange(-200,200); 
+	
+	this.scale = 250/(250+z); 
+	this.shrink = 0.96;
+	this.colour = "white";
+	
+	this.update = function () {
+		ctx.fillStyle = this.colour;
+		
+		var tempscale = this.scale; 
+		//ctx.fillRect(this.x, this.y,tempscale, tempscale);
+		//ctx.beginPath(); 
+		//ctx.arc(this.x, this.y, tempscale, 0,Math.PI*2, true); 
+		//ctx.fill(); 
+		ctx.font = Math.round(tempscale*14) + "pt Arial"; 
+		ctx.fillText("❄", this.x, this.y); 
+		
+		var wind = ((width/2) - mouseX ) * 0.01; 
+		
+		this.x+=((this.velX+wind) * this.scale);
+		this.y+=(this.velY * this.scale); 
+		//this.scale*=this.shrink; 
+		//this.velY +=0.5;
+		
+		if(this.x<0) this.x = width; 
+		else if(this.x>width) this.x = 0; 
+		
+		
+	};
+	
+}
+
+
+function randomRange(min, max) { 
+	return Math.random() * (max-min) + min; 
+}
+	</script>
+</body>
+</html>

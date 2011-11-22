@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<title></title>
+<style type="text/css"> 
+	body {
+		background-color: #000000;
+		margin: 0px;	
+		text-align:center;
+	}
+
+</style>
+</head>
+<body>
+<script>
+
+// canvas element and 2D context
+var canvas = document.createElement( 'canvas' ),
+	context = canvas.getContext( '2d' );
+
+canvas.width = 600; 
+canvas.height = 600; 
+document.body.appendChild(canvas);
+
+var c = context, 
+	generation = 0, 
+	tree; 
+
+
+makeTree(); 
+
+canvas.addEventListener("mousedown", makeTree, false); 
+
+function makeTree(){
+ 	tree = new BranchObject(0.6, 0, 1);
+}
+
+setInterval(loop, 1000/30);
+
+function loop() { 
+	c.save();
+	c.clearRect(0,0,600,600); 
+
+	c.translate(300,580); 
+	c.rotate(-Math.PI/2);
+	c.scale(1,1);
+	tree.updateGrowth();
+	tree.updateRotation(); 
+	tree.render(c);
+	c.restore();
+}
+
+
+function randomRange(min, max) { 
+	return Math.random()*(max-min) + min; 
+}
+
+function BranchObject(scale, angle, generation) { 
+	
+	this.children = []; 
+	this.scale = scale; 
+	this.angle = angle; 
+	this.generation = generation; 
+	this.growth = 0; 
+	this.growthVel = 0; 
+	this.growDelay = randomRange(0,8); 
+	this.growSpeed = randomRange(0.01,0.05); 
+	this.growSpring = 0.8; 
+	
+	this.rotation = 0; 
+	this.rotationVel = 0; 
+	this.rotationDelay = this.growDelay; 
+	this.rotationSpeed = randomRange(0.02,0.05); 
+	this.rotationSpring = 0.9; 
+	
+	if(generation<9){
+		 
+		this.children.push(new BranchObject(randomRange(0.7,0.99), randomRange(-Math.PI/7,-Math.PI/6), generation+1));
+		this.children.push(new BranchObject(randomRange(0.7,0.99), randomRange(Math.PI/7,Math.PI/6), generation+1));
+	}
+	
+	this.updateGrowth = function() { 
+		if(this.growDelay>0) {
+			this.growDelay--; 
+		} else { 
+			this.growthVel*=this.growSpring; 
+			this.growthVel+=((1- this.growth) * this.growSpeed);
+			this.growth+=this.growthVel; 
+			
+			for(var i=0;i<this.children.length; i++) { 
+				this.children[i].updateGrowth(); 
+			}
+		}
+	
+	};
+
+	this.updateRotation = function() { 
+		if(this.rotationDelay>0) {
+			this.rotationDelay--; 
+		} else { 
+			this.rotationVel*=this.rotationSpring; 
+			this.rotationVel+=((1- this.rotation) * this.rotationSpeed);
+			this.rotation+=this.rotationVel; 
+			
+			for(var i=0;i<this.children.length; i++) { 
+				this.children[i].updateRotation(); 
+			}
+		}
+	
+	};
+
+	this.render = function(c) { 
+		
+		if(this.growth == 0 ) return; 
+		
+		c.save(); 
+
+		var growth = this.growth; 
+		var rotation = this.rotation;
+		
+		c.strokeStyle = "white";
+			c.lineWidth= 3;
+			
+		var lineWidth = (20-this.generation) * ((growth*0.5)+0.5); 
+		
+		var lineLength = 100*growth; 
+
+		c.rotate(angle * rotation); 
+		c.beginPath(); 
+		c.moveTo(0,lineWidth); 
+		c.lineTo(lineLength, lineWidth*this.scale);
+		c.moveTo(lineLength, -lineWidth*this.scale);
+		c.lineTo(0,-lineWidth);
+
+		c.stroke(); 
+		c.beginPath(); 
+		c.arc(lineLength,0,lineWidth*this.scale, 0, Math.PI*2, true); 
+		//c.fill();
+		c.stroke(); 
+
+		c.beginPath(); 
+		c.lineWidth = 1; 
+		c.moveTo(0,lineWidth); 
+		c.lineTo(0,-lineWidth);
+		c.stroke();
+
+		c.translate(lineLength,0); 
+
+
+		c.scale(scale,scale);
+
+		for(var i=0;i<this.children.length; i++) { 
+			this.children[i].render(c); 
+		}
+
+		c.restore(); 
+
+		
+		
+	};
+	
+	
+}
+
+ 
+</script>
+</body>
+</html>
