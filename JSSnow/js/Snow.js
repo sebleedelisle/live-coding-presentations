@@ -2,9 +2,9 @@
 
 Particle3D = function (material ) {
 
-	THREE.Particle.call( this );
+	THREE.Particle.call( this, material );
 	
-	this.material = material instanceof Array ? material : [ material ];
+	//this.material = material instanceof Array ? material : [ material ];
 	
 	// define properties
 	this.velocity = new THREE.Vector3(0,-8,0);
@@ -19,7 +19,7 @@ Particle3D = function (material ) {
 Particle3D.prototype = new THREE.Particle();
 Particle3D.prototype.constructor = Particle3D;
 
-Particle3D.prototype.update = function() {
+Particle3D.prototype.updatePhysics = function() {
 	
 	this.velocity.multiplyScalar(this.drag); 
 	this.velocity.addSelf(this.gravity);
