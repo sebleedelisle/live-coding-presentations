@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+	<title>@seb_ly</title>
+	<style type="text/css">
+		body { 
+			margin : 0px; 
+			background : black; 
+			overflow : hidden; 
+		}
+	
+	</style>
+</head>
+<body>
+
+	<script>
+
+var canvas = document.createElement('canvas'); 
+var c = canvas.getContext('2d'); 
+document.body.appendChild(canvas); 
+var  width = canvas.width = window.innerWidth; 
+var height = canvas.height = window.innerHeight; 
+
+var particles = new Array() ; 
+
+
+
+setInterval(loop, 1000/30); 
+
+function loop() { 
+	
+	c.clearRect(0, 0, width, height); 
+	
+	var particle = new Particle(); 
+	particles.push(particle); 
+	
+	for(var i = 0; i< particles.length;i++)  { 
+		particles[i].update(); 
+	}
+	
+	while(particles.length>20) { 
+		particles.shift(); 
+	}
+	
+}
+
+
+function Particle() { 
+	
+	this.x = width/2; 
+	this.y = height/2;
+	this.velX = Math.random() * 20 - 10; 
+	this.velY = Math.random() * 20 - 10;  
+	this.size = Math.random() * 10; 
+	
+	this.update = function () { 
+		
+		this.x+=this.velX; 
+		this.y+=this.velY; 
+		
+		c.fillStyle = '#ff6600'; 
+		
+		c.beginPath(); 
+		c.arc(this.x, this.y, this.size, 0, Math.PI*2, true); 
+		c.fill(); 
+		this.size *=0.9; 
+		this.velY+=1; 
+		
+	};
+	
+}
+
+	</script>
+</body>
+</html>

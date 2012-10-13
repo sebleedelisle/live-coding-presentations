@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html lang="en"> 
+<meta charset="utf-8"> 
+	<head>
+	<title> Particles!</title>
+	<style type="text/css"> 
+		body { 
+			background-color:black; 
+			margin:0px; 
+			overflow : hidden; 
+		}
+		</style> 
+	</head>
+	
+	<body>
+		<script>
+
+var canvas = document.createElement('canvas'); 
+document.body.appendChild(canvas); 
+canvas.width = window.innerWidth; 
+canvas.height = window.innerHeight; 
+var c = canvas.getContext('2d'); 
+
+var particles = []; 
+
+setInterval(draw, 1000/30); 
+
+function draw() { 
+	
+	//c.clearRect(0,0,canvas.width, canvas.height); 
+
+	c.fillStyle = 'rgba(0,0,0,0.05)';
+	c.fillRect(0,0,canvas.width, canvas.height);  
+	c.save(); 
+	c.translate(canvas.width/2, canvas.height/2); 
+	
+	var p = new Particle(); 
+	particles.push(p); 
+	
+	while(particles.length>200) particles.shift(); 
+
+	for(var i = 0; i<particles.length; i++) { 
+		
+		p = particles[i]; 
+		
+		c.fillStyle = p.colour;
+		
+		var fov = 250; 
+		var scale = fov/(p.z+fov); 
+		var x2d = p.x * scale; 
+		var y2d = p.y * scale;
+		
+		
+		c.fillRect(x2d,y2d,scale, scale); 
+
+		// p.size*=1.05; 
+		// 
+		// 	var drag = 1.05; 
+		// 	
+		// 	p.xVel *= drag; 
+		// 	p.yVel *= drag;
+		// 	
+		// //	p.yVel +=0.5;  
+
+		//p.x+=p.xVel; 
+		//p.y+=p.yVel; 
+		p.z -= 5; 
+		
+		if(p.z < -fov) p.z += (fov*2); 
+	
+	}
+	c.restore(); 
+}
+
+function Particle() { 
+	
+	this.x = random(-400,400);
+	this.y = random(-400,400); 
+	this.z = 0; 
+	
+	// this.xVel =random(-15,15); 
+	// this.yVel =random(-15,15); 
+	this.size = 2; 
+	
+	this.colour = 'white';//'hsl('+random(180,220)+', 100%, 50%)';
+	
+	
+	
+}
+
+
+function random(min, max) { 
+	
+	return Math.random() * (max-min) + min; 
+	
+}
+
+		</script>			
+	</body>
+	
+	
+</html>
+	
