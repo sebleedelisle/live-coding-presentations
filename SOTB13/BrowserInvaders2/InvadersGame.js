@@ -24,7 +24,7 @@ var playerShip,
 	
 	screenWidth, 
 	screenHeight, 
-	playerType = 0; // this is the browser that is playing
+	playerType = Math.floor(Math.random()*5); // this is the browser that is playing
 
 var canvas, 
 	ctx; 
@@ -52,8 +52,8 @@ function setup(){
 
 
 function initVars() { 
-	screenWidth = 1400; 
-	screenHeight = 700; 	
+	screenWidth = 1000; 
+	screenHeight = 600; 	
 }
 
 function initObjects() { 
@@ -314,7 +314,7 @@ function firePressed() {
 function keyPressed(e) { 
 
 	if (state == STATE_WAITING) { 
-		if((e.keyCode>48) && (e.keyCode<=49+images.length)) {
+		if((e.keyCode>48) && (e.keyCode<=48+images.length)) {
 			playerType = e.keyCode-49; 
 			resetInvaders(); 
 			playerShip.image = images[playerType];
