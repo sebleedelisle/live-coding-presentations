@@ -1,3 +1,8 @@
+// This code by Seb Lee-Delisle 
+// http://seb.ly
+// twitter : seb_ly 
+// You're free to use this code, but please credit me - thanks!
+
 // state variables 
 var STATE_WAITING = 0, 
 	STATE_PLAYING = 1, 
