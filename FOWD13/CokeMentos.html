@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html lang="en"> 
+<meta charset="utf-8"> 
+	<head>
+	<title> Particles!</title>
+	<style type="text/css"> 
+		body { 
+			background-color:black; 
+			margin:0px; 
+			overflow : hidden; 
+		}
+		</style> 
+	</head>
+	
+	<body>
+		<script>
+
+// this makes a canvas
+var canvas = document.createElement('canvas');
+var ctx = canvas.getContext('2d');
+
+// puts it in the HTML body 
+document.body.appendChild(canvas); 
+
+// change the width and height to match the 
+// browser size
+canvas.width = window.innerWidth; 
+canvas.height = window.innerHeight; 
+
+// make an empty array to store the particles in 
+var particles = []; 
+
+// run the loop function 60 times a second
+setInterval(loop, 1000/60);
+
+// define the loop function
+function loop() { 
+
+	// make a particle object, called p
+	var p = {x : canvas.width/2,         // x position is in the middle (half the width)
+		xSpeed : Math.random() * 4 -2,   // x speed is random between -2 and 2 
+		y : canvas.height/4*3,           // y position is 3/4 of the way down
+		ySpeed : Math.random() * -5 -15, // ySpeed is random  between -15 and -20
+		size : Math.random()*10+10};     // size is random between 10 and 20
+
+	// add the particle on to the array
+	particles.push(p); 
+	
+	// added code not from the talk that gets rid of the oldest
+	// particle if there are too many
+	while(particles.length>200) particles.shift(); 
+	
+	// clear the canvas
+	ctx.clearRect(0,0,canvas.width, canvas.height); 
+	
+	
+	// loop around once for every particle
+	for(var i = 0; i< particles.length;i++) { 
+		
+		// grab it out of the array
+		p = particles[i]; 
+		
+		// set the fill colour
+		ctx.fillStyle = 'white'; 
+		
+		// draw a circle
+		ctx.beginPath(); 
+		ctx.arc(p.x, p.y, p.size, 0, Math.PI*2, true); 
+		ctx.fill(); 
+
+		// add the speed to the position
+		p.x+=p.xSpeed; 
+		p.y+=p.ySpeed;
+		
+		// make it shrink by 96%
+		p.size*=0.96;
+		
+		// add gravity
+		p.ySpeed +=0.5; 
+		
+	}
+
+}
+
+
+
+		</script>			
+	</body>
+	
+	
+</html>
+	
