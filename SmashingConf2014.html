@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="en"> 
+<meta charset="utf-8"> 
+	<head>
+	<title> Particles!</title>
+	<style type="text/css"> 
+		body { 
+			background-color:black; 
+			margin:0px; 
+			overflow : hidden; 
+		}
+		</style> 
+	</head>
+	
+	<body>
+		<script>
+		
+var canvas = document.createElement('canvas'); 
+canvas.width = window.innerWidth; 
+canvas.height = window.innerHeight; 
+
+var ctx = canvas.getContext('2d'); 
+
+document.body.appendChild(canvas);
+
+var rotation = 0; 
+
+setInterval(loop, 16); 
+
+
+function loop() {
+	ctx.fillStyle = 'black';
+	ctx.fillRect(0,0,canvas.width, canvas.height); 
+	ctx.save();
+	
+	ctx.translate(canvas.width/2, canvas.height/2); 
+	ctx.rotate(rotation * Math.PI/180); 
+	ctx.globalCompositeOperation = 'lighter';
+	
+	for(var i = 0; i< 36; i++) { 
+		ctx.lineWidth = 5; 
+		ctx.scale(0.96,0.96); 
+		ctx.rotate(rotation *0.1 *  Math.PI/180);
+		ctx.strokeStyle = 'hsla('+i*10+',100%, 70%, 1)'; 
+		ctx.strokeRect(50,0,300,300); 
+	}
+	
+	rotation +=0.1; 
+	
+	ctx.restore(); 
+	
+}
+
+
+
+
+		</script>			
+	</body>
+	
+	
+</html>
+	

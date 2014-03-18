@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<meta charset="utf-8">
+<head>
+	<title></title>
+	<style type="text/css">
+		body 
+		{
+			margin:0;
+		}
+	</style>
+</head>
+<body>
+	<script>
+
+var canvas = document.createElement('canvas'); 
+document.body.appendChild(canvas); 
+canvas.width = window.innerWidth; 
+canvas.height = window.innerHeight; 
+
+var c = canvas.getContext('2d');
+var particles = [];  
+
+setInterval(loop, 1000/30);
+
+function loop() { 
+	c.clearRect(0,0,canvas.width, canvas.height); 
+
+	var p = {
+	 	x : canvas.width/2, 
+		y : canvas.height/2, 
+		xVel : Math.random()*10 - 5, 
+		yVel : Math.random()*10 - 5}; 
+	particles.push(p); 
+	
+	for(var i = 0; i<particles.length; i++) { 
+		var p = particles[i]; 
+		c.fillRect(p.x,p.y,20,20); 
+		p.x+=p.xVel; 
+		p.y+=p.yVel; 
+	}
+}
+
+
+
+
+	</script>
+</body>
+</html>
