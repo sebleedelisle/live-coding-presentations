@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en"> 
+<meta charset="utf-8"> 
+	<head>
+	<title> Particles!</title>
+	<style type="text/css"> 
+		body { 
+			background-color:black; 
+			margin:0px; 
+			overflow : hidden; 
+		}
+		</style> 
+	</head>
+	
+	<body>
+		<script src="libs/Vector2.js"></script>
+		<script>
+
+
+
+var canvas = document.createElement('canvas'); 
+document.body.appendChild(canvas); 
+canvas.width = window.innerWidth; 
+canvas.height = window.innerHeight; 
+
+var ctx = canvas.getContext('2d'); 
+
+var bird = new Bird(); 
+var pipes = []; 
+
+var pipe = new Pipe(canvas.width); 
+pipes.push(pipe); 
+
+
+window.addEventListener('keydown', onKeyDown); 
+
+
+setInterval(draw, 1000/30); 
+
+
+function draw() { 
+
+	ctx.clearRect(0,0,canvas.width, canvas.height); 
+	
+	bird.update();
+	pipe.x -= 5; 
+	 
+	bird.render(); 
+	pipe.render(); 
+	
+	
+	
+}
+
+
+function onKeyDown(e) { 
+	bird.yVel-=7;
+	
+}
+
+
+function Bird() { 
+	
+	this.x = 200; 
+	this.y = 300; 
+	this.yVel = -10; 
+	
+	this.update = function () { 
+		this.y += this.yVel;
+		
+		this.yVel *= 0.97; 
+		
+		this.yVel +=1; 
+		
+		if(this.y > canvas.height-100) {
+			this.y = canvas.height-100; 
+			this.yVel *=-0.2; 
+			
+		}
+		
+	}
+	
+	this.render = function() { 
+		
+		ctx.save(); 
+		ctx.translate(this.x, this.y); 
+		ctx.rotate(Math.PI*0.01 * this.yVel); 
+		ctx.scale(1,0.7); 
+		
+		
+		
+		
+		ctx.fillStyle = 'yellow'; 
+		ctx.beginPath(); 
+		ctx.arc(0,0, 30, 0, 2*Math.PI, true); 
+		ctx.fill(); 
+		ctx.restore(); 
+		
+	}
+	
+	
+}
+
+function Pipe(x) {
+	this.x = x; 
+	this.gapY = 300; 
+	this.gapHeight = 40; 
+	
+	this.render = function() { 
+		
+		ctx.fillStyle = 'green'; 
+		ctx.fillRect(this.x,0, 40, this.gapY-this.gapHeight); 
+		ctx.fillRect(this.x,this.gapY+this.gapHeight, 40, this.gapY + 300); 
+		
+	}
+	
+	
+	
+}
+
+
+
+		</script>			
+	</body>
+	
+	
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
