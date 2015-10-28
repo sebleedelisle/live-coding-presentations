@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="en"> 
+<meta charset="utf-8"> 
+	<head>
+	<title> Particles!</title>
+	<style type="text/css"> 
+		body { 
+			background-color:black; 
+			margin:0px; 
+			overflow : hidden; 
+		}
+		</style> 
+	</head>
+	
+	<body>
+	
+		<script>
+
+var canvas = document.createElement('canvas'); 
+document.body.appendChild(canvas); 
+canvas.width = window.innerWidth; 
+canvas.height = window.innerHeight; 
+
+var ctx = canvas.getContext('2d'); 
+
+		
+var particles = []; 
+var drag = 0.99; 
+var gravity = 0.3; 
+
+setInterval(loop, 1000/60); 
+
+
+function loop() { 
+	ctx.clearRect(0,0,canvas.width, canvas.height); 
+	
+	var p = { x : canvas.width/2, 
+			  y : canvas.height/2, 
+			  xVel : random(-5, 5),
+			  yVel : random(-5, 5), 
+			  size : 20,
+			  colour : 'hsl('+30+',100%,'+random(50,100)+'%)'};
+			
+	particles.push(p);
+	
+	if(particles.length>200) particles.shift();
+	
+	for(var i = 0; i<particles.length; i++) { 
+		p = particles[i]; 
+		
+		
+			if(p.y+p.size>canvas.height-100) {
+				p.y = canvas.height-100-p.size; 
+				p.yVel*=-0.8; 
+
+			}
+
+		
+		ctx.fillStyle = p.colour;
+		
+		ctx.beginPath(); 
+		ctx.arc(p.x,p.y,p.size,0,Math.PI*2,true);
+		ctx.fill();
+		
+		p.x+=p.xVel;
+		p.y+=p.yVel; 
+		
+		p.xVel*=drag;
+		p.yVel*=drag;
+		p.yVel+=gravity;
+		p.size*=0.99; 
+	
+		
+	}
+}
+
+function random(min, max) { 
+	return(Math.random()*(max-min) + min); 
+	
+}
+
+
+		</script>			
+	</body>
+	
+	
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
